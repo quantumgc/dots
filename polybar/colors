@@ -1,0 +1,8 @@
+[colors]
+  background =  ${xrdb:color0}
+  background-2 =  ${xrdb:color1}
+  foreground = ${xrdb:color7}
+  foreground-2 =  ${xrdb:color8}
+  primary = ${xrdb:color7}
+  secondary = ${xrdb:color10}
+  alert = ${xrdb:color8}

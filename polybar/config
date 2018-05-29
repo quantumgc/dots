@@ -1,0 +1,8 @@
+[bar]   
+    include-file = /home/gautam/.config/polybar/bars
+
+[colors]
+    include-file = /home/gautam/.config/polybar/colors
+
+[module]
+    include-file = /home/gautam/.config/polybar/modules

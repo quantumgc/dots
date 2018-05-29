@@ -1,0 +1,16 @@
+rofi.font: System San Francisco Display 20
+rofi.eh: 1
+rofi.line-margin: 30
+rofi.opacity: "50"
+rofi.separator-style: solid
+rofi.hide-scrollbar: true
+rofi.lines: 10
+rofi.width: 100
+rofi.padding: 400
+rofi.bw: 0
+rofi.auto-select: true
+rofi.show-icons: true
+rofi.modi: windowcd,drun,ssh
+
+# Dark theme.
+rofi.theme: ~/.cache/wal/colors-rofi-dark.rasi

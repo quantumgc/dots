@@ -1,0 +1,431 @@
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:100:...%
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 0
+label-indicator-margin = 0
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground}
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-foreground = ${colors.background}
+label-focused-background = ${colors.foreground}
+
+label-focused-underline= ${colors.alert}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 1.5
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1.5
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-2}
+label-empty-padding = 1.5
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+; pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-foreground = ${module/bspwm.label-focused-foreground} 
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-foreground = ${colors.foreground-2}
+label-visible-underline = ${self.label-focused-background}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
+[module/i3mini]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-foreground = ${module/bspwm.label-focused-foreground} 
+label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-underline = ${module/bspwm.label-focused-underline}
+label-focused-padding = ${module/bspwm.label-focused-padding}
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-foreground = ${colors.foreground-2}
+label-visible-underline = ${self.label-focused-background}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
+[module/mpd]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+; Seconds to sleep between progressbar/song timer sync
+; Default: 1
+interval = 2
+
+format-online = <label-song> -- <icon-prev>|<icon-stop>|<toggle>|<icon-next>
+
+icon-prev = Prev
+icon-stop = Stop
+icon-play = Play
+icon-pause = Pause
+icon-next = Next
+
+label-song-maxlen = 50
+label-song-ellipsis = true
+
+[module/music]
+type = custom/script
+interval = 2
+
+label = %output:0:50:...%
+exec = ~/.config/polybar/mpris.sh
+
+[module/xbacklight]
+type = internal/xbacklight
+
+format = <label> <bar>
+label = BL
+
+bar-width = 10
+bar-indicator = |
+bar-indicator-foreground = #ff
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-fill-foreground = #9f78e1
+bar-empty = ─
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground}
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+format-underline = #f90000
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+format-underline = #4bffdc
+label = %percentage_used%%
+
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+
+format-connected = <label-connected>
+format-connected-underline = ${colors.foreground-2}
+label-connected = WiFi @%downspeed:9%↓/%upspeed:9%↑
+
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = WiFi disc.
+label-disconnected-foreground = ${colors.foreground}
+
+ramp-signal-0 = 0
+ramp-signal-1 = 1
+ramp-signal-2 = 2
+ramp-signal-3 = 3
+ramp-signal-4 = 4
+ramp-signal-foreground = ${colors.foreground}
+
+[module/eth]
+type = internal/network
+interface = enp1s0
+interval = 3.0
+
+format-connected-underline = ${colors.foreground-2}
+format-connected-prefix-foreground = ${colors.foreground}
+label-connected = eth @%downspeed:9%↓/%upspeed:9%↑
+
+
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = eth disc.
+label-disconnected-foreground = ${colors.foreground}
+
+[module/netbr]
+type = internal/network
+interface = enp0s20u2
+interval = 3.0
+
+format-connected-underline = ${colors.foreground-2}
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground}
+label-connected = bridge conn.
+
+
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = bridge disc.
+label-disconnected-foreground = ${colors.foreground}
+
+[module/time]
+type = internal/date
+interval = 1
+
+date = "%d-%m-%Y"
+date-alt = "%Y-%m-%d"
+
+time = "%R"
+time-alt = "%T"
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground}
+format-underline = #00000000
+
+label = %time%
+
+[module/date]
+type = internal/date
+interval = 10
+
+date = "%a %d-%m"
+date-alt = "%FT%T"
+
+time = "%R"
+time-alt = "%T"
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground}
+format-underline = #00000000
+
+label = %date%
+
+[module/volume]
+type = internal/volume
+
+; Soundcard to be used
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
+
+; Name of the master mixer
+; Default: Master
+master-mixer = Master
+
+; Use volume mapping (similar to amixer -M and alsamixer), where the increase in volume is linear to the ear
+; Default: false
+mapping = true
+
+format-volume = <label-volume> <bar-volume>
+label-volume = VOL
+label-volume-foreground = ${root.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground}
+label-muted = "sound muted"
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #556699
+bar-volume-foreground-1 = #557788
+bar-volume-foreground-2 = #558877
+bar-volume-foreground-3 = #559966
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground}
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP0
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = #00000000
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.foreground}
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-foreground = ${colors.foreground}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground}
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = Power
+label-open-foreground = ${colors.foreground}
+label-close = cancel
+label-close-foreground = ${colors.foreground}
+label-separator = |
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = power off
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = cancel
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = reboot
+
+menu-2-0 = power off
+menu-2-0-exec = poweroff
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+[module/wallmenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = Wallpapers
+label-open-foreground = ${colors.foreground}
+label-close = cancel
+label-close-foreground = ${colors.foreground}
+label-separator = |
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = Canyons
+menu-0-0-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Canyons -a 80"
+menu-0-1 = Drawn
+menu-0-1-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Drawn -a 80"
+menu-0-2 = Forests
+menu-0-2-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Forests -a 80"
+menu-0-3 = Mountains
+menu-0-3-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Mountains -a 80"
+menu-0-4 = Space
+menu-0-4-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Space -a 80"
+menu-0-5 = Plains
+menu-0-5-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/Plains -a 80"
+
+menu-0-6 = Random
+menu-0-6-exec = "wal -i /home/gautam/Pictures/Wallpapers/Themes/AllWalls -a 80"
+menu-0-7 = Weeby
+menu-0-7-exec = "wal -i /home/gautam/Pictures/Wallpapers/Weeby -a 80"
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
+
+[module/redshift]
+type = custom/script
+interval = 5
+
+exec = ~/.config/polybar/redshift.sh
