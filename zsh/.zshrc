@@ -5,7 +5,7 @@ SAVEHIST=1000
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '$HOME/.zshrc'
+zstyle :compinstall filename '/home/gautam/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -51,6 +51,8 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 fi
 # End of lines added by compinstall
 
+bindkey -v
+
 # Source global definitions
 if [ -f /etc/zshrc ]; then
 	. /etc/zshrc
@@ -81,9 +83,6 @@ promptinit
 cat ~/.cache/wal/sequences &&
 
 # Aliases
-
-# neovim
-alias nv="nvim"
 
 # Git
 alias g="git"
