@@ -1,6 +1,8 @@
+[bar/default]
+
 [bar/top]
     width = 100%
-    height = 27
+    height = 30
 
     radius = 0.0
     fixed-center = true
@@ -22,7 +24,7 @@
 
     font-0 = "Cousine:size=12;0"
     font-1 = "Noto Sans:size=12:weight=bold;1"
-    font-2 = "FontAwesome:size=12;2"
+    font-2 = "Noto Emoji:size=12;2"
     font-3 = "Tamsyn:pixelsize=12;3"
     font-4 = "Noto Sans CJK JP: size=12;4"
 
@@ -31,7 +33,7 @@
 
 [bar/bottom]
     width = 100%
-    height = 27
+    height = 25
 
     radius = 0.0
     fixed-center = true
@@ -53,11 +55,11 @@
     module-margin-left = 2
     module-margin-right = 2
 
-    font-0 = "Cousine:size=12;0"
-    font-1 = "Noto Sans:size=12:weight=bold;1"
-    font-2 = "FontAwesome:size=12;2"
-    font-3 = "Tamsyn:pixelsize=12;3"
-    font-4 = "Noto Sans CJK JP: size=12;4"
+    font-0 = "Cousine:size=11;0"
+    font-1 = "Noto Sans:size=11:weight=bold;1"
+    font-2 = "Noto Emoji:pixelsize=5;2"
+    font-3 = "Tamsyn:pixelsize=11;3"
+    font-4 = "Noto Sans CJK JP: size=11;4"
 
     tray-padding = 2
     tray-transparent = false
@@ -69,7 +71,7 @@
 
     monitor = eDP-1
 
-    modules-left = powermenu i3
+    modules-left = i3
     modules-center = xwindow
     modules-right = time volume
 
@@ -87,7 +89,7 @@
 
     monitor = DP-1
 
-    modules-left = powermenu i3
+    modules-left = i3
     modules-center = xwindow
     modules-right = time volume
 
