@@ -56,21 +56,29 @@
 
         # Mathematica
             for_window [title="Welcome to Wolfram Mathematica"] floating enable
+            for_window [class="^XMathematica$"] floating enable
         # MPV
             for_window [class="^mpv$"] border none
         # VSCode
             assign [class="^Code$"] 3
             no_focus [class="^Code$"]
+        # Emacs
+            assign [class="^Emacs$"] 3
+            no_focus [class="^Emacs$"]
         # Liferea
             assign [class="^Liferea$"] 10
         # Hexchat
             assign [class="^Hexchat$"] 10
+        # qBittorent
+            assign [class="^qBittorrent$"] 10
         # Amarok
             assign [class="Amarok$"] 10
         # Steam
             assign [class="^Steam$"] 10
         # Riot
             assign [class="^Riot$"] 10
+        # Discord
+            assign [class=".*discord.*"] 10
     #------------------------------------------------------------
 #------------------------------------------------------------
 # Keybindings
@@ -129,6 +137,7 @@
     # Starting programs
         bindsym $mod+$ret exec $term
         bindsym $mod+t exec thunar
+        bindsym $mod+f exec jgmenu_run
         bindsym $mod+d $menu
         bindsym $mod+Shift+d $window
         bindsym $mod+$alt+d $ssh
@@ -292,7 +301,7 @@
                 bindsym $mod+Shift+y exec xbacklight -dec 1
 
         # exit i3 (logs you out of your X session)
-            bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+            bindsym $mod+Shift+e exec clearine
         # Switch screen modes (i3 only)
             # A hacky way of switching between a single screen and a double screen that I may split
               # off into a separate script at some point.
