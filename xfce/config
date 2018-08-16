@@ -136,7 +136,7 @@
     #------------------------------------------------------------
     # Starting programs
         bindsym $mod+$ret exec $term
-        bindsym $mod+t exec thunar
+        bindsym $mod+t exec nautilus
         bindsym $mod+f exec jgmenu_run
         bindsym $mod+d $menu
         bindsym $mod+Shift+d $window
@@ -285,7 +285,11 @@
         # Play/Pause the current music player
             bindsym $mod+Ctrl+space exec playerctl play-pause
         # Screen locker
-            bindsym $alt+Ctrl+Delete exec "xflock4"
+            bindsym $alt+Ctrl+Delete exec "XSSToggle XSSON& xflock4"
+        # Turn off xscreensaver and dpms for 30 minutes
+            bindsym $mod+x exec "XSSToggle 1800&"
+        # Turn xscreensaver back on
+            bindsym $mod+Shift+x exec "XSSToggle XSSON&"
         # Screen brightness controls
             # increase screen brightness: big step
                 bindsym XF86MonBrightnessUp exec xbacklight -inc 10
