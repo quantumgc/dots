@@ -1,0 +1,10 @@
+[Unit]
+Description=Start tmux in detached session
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/tmux new-session -s %u -d 'tmuxp load -y home\; tmuxp load -d comms;'
+ExecStop=/usr/bin/tmux kill-server
+
+[Install]
+WantedBy=multi-user.target
