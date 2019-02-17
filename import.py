@@ -20,7 +20,6 @@ def getSubFiles(data):
         if f in files:
             files.remove(f)
 
-
     return map(lambda x: (os.path.join(srcdir, x), x), files)
 
 def main():
@@ -35,7 +34,9 @@ def main():
 
     for name, data in files.items():
         print(f"Config entry : File {name}")
-        print(f"copying {os.path.expandvars(data['src'])} --> {data['dst']}")
+        src = os.path.expandvars(data['src'])
+        print(f"copying {src} --> {data['dst']}")
+        shutil.copyfile(src,data['dst'])
         print("----")
 
 main()
