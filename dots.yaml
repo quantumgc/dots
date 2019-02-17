@@ -1,26 +1,33 @@
 directories:
-  - compton:
+  compton:
       src: "$HOME/.config/compton"
       dst: "./compton"
-  - dunst:
+      ignore: ["launch.sh"]
+  dunst:
       src: "$HOME/.config/dunst"
       dst: "./dunst"
-  - i3:
+      ignore: ["launch.sh"]
+  i3:
       src: "$HOME/.config/i3"
       dst: "./i3"
-  - polybar:
+  polybar:
       src: "$HOME/.config/polybar"
       dst: "./polybar"
-  - rofi:
+      ignore: ["launch.sh"]
+  rofi:
       src: "$HOME/.config/rofi"
       dst: "./rofi"
+      ignore: ["launch.sh"]
 files:
-  - clearine:
+  clearine:
       src: "$HOME/.config/clearine.conf"
       dst: "./clearine/clearine.conf"
-  - tmux_config:
+  tmux_config:
       src: "$HOME/.tmux.conf"
       dst: "./tmux/.tmux.conf"
-  - tmux_service:
+  tmux_service:
       src: "$HOME/.config/systemd/user/tmux.service"
       dst: "./tmux/.tmux.conf"
+  screen-switch:
+      src: "$HOME/_Scripts/screen-switch"
+      dst: "./i3/screen-switch"
