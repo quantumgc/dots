@@ -46,8 +46,6 @@
             assign [class="^Firefox$"] 1
         # Thunar
             assign [class="^Thunar$"] 4
-        # Evince
-            assign [class="^Evince$"] 5
         # MPV
             for_window [class="^mpv$"] border none
         # Emacs
@@ -476,8 +474,6 @@
 
         # Keyboard
         #exec "ibus-daemon -d"
-        # redshift
-        exec "redshift -c $HOME/.config/redshift/redshift.conf"
 #------------------------------------------------------------
 # Colors
     # Set colors from Xresources
