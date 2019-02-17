@@ -1,0 +1,26 @@
+directories:
+  - compton:
+      src: "$HOME/.config/compton"
+      dst: "./compton"
+  - dunst:
+      src: "$HOME/.config/dunst"
+      dst: "./dunst"
+  - i3:
+      src: "$HOME/.config/i3"
+      dst: "./i3"
+  - polybar:
+      src: "$HOME/.config/polybar"
+      dst: "./polybar"
+  - rofi:
+      src: "$HOME/.config/rofi"
+      dst: "./rofi"
+files:
+  - clearine:
+      src: "$HOME/.config/clearine.conf"
+      dst: "./clearine/clearine.conf"
+  - tmux_config:
+      src: "$HOME/.tmux.conf"
+      dst: "./tmux/.tmux.conf"
+  - tmux_service:
+      src: "$HOME/.config/systemd/user/tmux.service"
+      dst: "./tmux/.tmux.conf"
