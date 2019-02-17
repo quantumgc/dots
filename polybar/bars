@@ -1,52 +1,36 @@
-[bar/default]
-
 [bar/top]
     width = 100%
-    height = 30
-
-    radius = 0.0
+    height = 25
+    bottom = false
     fixed-center = true
-
+    line-size = 0
+    line-color = #f00
     background = ${colors.background}
     foreground = ${colors.foreground}
-
-    line-size = 3
-    line-color = #f00
-
     border-size = 0
-    border-color = #00000000
-
     padding-left = 1
     padding-right = 1
+    module-margin-left = 0
+    module-margin-right = 0
 
-    module-margin-left = 2
-    module-margin-right = 2
-
-    font-0 = "Cousine:size=12;0"
-    font-1 = "Noto Sans:size=12:weight=bold;1"
-    font-2 = "Noto Emoji:size=12;2"
-    font-3 = "Tamsyn:pixelsize=12;3"
-    font-4 = "Noto Sans CJK JP: size=12;4"
-
-    scroll-up = i3wm-wsnext
-    scroll-down = i3wm-wsprev
+    font-0 = Cantarell:style=Regular:size=12
+    font-1 = Fira Sans:size=12:weight=bold
+    font-2 = Fira Mono:style=Regular:pixelsize=10
+    font-3 = Noto Sans CJK JP:size=12
+    font-4 = Symbola:style=Regular
+    font-5 = Font Awesome 5 Free,Font Awesome 5 Free Solid:style=Solid:size=12
+    font-6 = Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular:size=14
+    font-7 = Font Awesome 5 Free,Font Awesome 5 Free Regular:style=Regular:size=12
 
 [bar/bottom]
-    width = 100%
-    height = 25
-
-    radius = 0.0
-    fixed-center = true
-
+    width = ${bar/top.width}
+    height = ${bar/top.height}
+    line-size = ${bar/top.line-size}
+    line-color = ${bar/top.line-color}
     background = ${colors.background}
     foreground = ${colors.foreground}
 
-    line-size = 3
-    line-color = #f00
-
-    border-size = 0
-    border-color = #00000000
-
+    fixed-center = true
     bottom = true
 
     padding-left = 1
@@ -55,67 +39,51 @@
     module-margin-left = 2
     module-margin-right = 2
 
-    font-0 = "Cousine:size=11;0"
-    font-1 = "Noto Sans:size=11:weight=bold;1"
-    font-2 = "Noto Emoji:pixelsize=5;2"
-    font-3 = "Tamsyn:pixelsize=11;3"
-    font-4 = "Noto Sans CJK JP: size=11;4"
-
     tray-padding = 2
-    tray-transparent = false
     tray-background = ${colors.background}
     tray-position=right
 
-[bar/InternMain]
+    font-0 = ${bar/top.font-0}
+    font-1 = ${bar/top.font-1}
+    font-2 = ${bar/top.font-2}
+    font-3 = ${bar/top.font-3}
+    font-4 = ${bar/top.font-4}
+    font-5 = ${bar/top.font-5}
+    font-6 = ${bar/top.font-6}
+    font-7 = ${bar/top.font-7}
+
+[bar/Main]
+    monitor = ${env:MONITOR1:eDP-1}
     inherit = bar/top
 
-    monitor = eDP-1
 
-    modules-left = i3
+    modules-left = fedorabutton textspace i3
     modules-center = xwindow
-    modules-right = time volume
+    modules-right = redshift textspace battery textspace time textspace volume
 
-[bar/InternSide]
+[bar/Side]
     inherit = bar/top
 
-    monitor = eDP-1
+    monitor = ${env:MONITOR2:eDP-1}
 
     modules-left =  i3mini
     modules-center =
     modules-right =
 
-[bar/ExternMain]
-    inherit = bar/top
-
-    monitor = DP-1
-
-    modules-left = i3
-    modules-center = xwindow
-    modules-right = time volume
-
-[bar/InternBottom]
+[bar/Bottom1]
     inherit = bar/bottom
-
-    monitor = eDP-1
+    
+    monitor = ${env:MONITOR1:eDP-1}
 
     modules-left = wlan eth
-    modules-center = date
-    modules-right = battery
+    modules-center = mpd
+    modules-right = 
 
-[bar/ExternBottom]
+[bar/Bottom2]
     inherit = bar/bottom
 
-    monitor = DP-1
-
-    modules-left =  wlan eth
-    modules-center = date
-    modules-right = battery
-
-[bar/ExternBottom2]
-    inherit = bar/bottom
-
-    monitor = DP-1
+    monitor = ${env:MONITOR1:eDP-1}
 
     modules-left =  i3mini wlan eth
-    modules-center = date
-    modules-right = battery
+    modules-center = mpd
+    modules-right =

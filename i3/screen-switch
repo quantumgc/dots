@@ -1,0 +1,178 @@
+#!/bin/sh
+# screen-switch - run on i3 startup
+
+# Credit to Stefan Farestam for the parse_yaml function, https://stackoverflow.com/a/21189044
+# Minor change made to output an associative array
+# Usage: eval $(parse_yaml <file> [prefix])
+parse_yaml() {
+    local prefix=$2
+    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+    sed -ne "s|^\($s\):|\1|" \
+        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
+        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+        awk -F$fs '{
+      indent = length($1)/2;
+      vname[indent] = $2;
+      for (i in vname) {if (i > indent) {delete vname[i]}}
+      if (length($3) > 0) {
+         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+         printf("%s[\"%s%s\"]=\"%s\"\n", "'$prefix'",vn, $2, $3);
+      }
+   }'
+}
+
+# Usage: update_config <config string> <config file>
+update_config() {
+    local confstr="$1"
+    local conffile="$2"
+
+    echo "" > "$conffile"
+
+    local buffer=""
+    local indent=""
+    for (( i=0; i<${#confstr}; i++ )); do
+        c="${confstr:$i:1}"
+        case "$c" in
+            # Indent
+            "{")
+                # Flush buffer
+                echo "$indent$buffer" >> "$conffile"
+                local buffer=""
+                local indent="  $indent"
+                ;;
+            # Outdent
+            "}")
+                # Flush buffer
+                echo "$indent$buffer" >> "$conffile"
+                local buffer=""
+                local indent="${indent%??}"
+                ;;
+            # Write to file
+            ";" | ",")
+                if [ "$buffer" ]; then
+                    # Flush buffer
+                    echo "$indent$buffer" >> "$conffile"
+                    local buffer=""
+                fi
+                ;;
+            # Add to buffer
+            *)
+                local buffer="${buffer}$c"
+            ;;
+        esac
+    done
+}
+
+# Usage: build_command <config file>; eval "xrandr $command"
+build_command() {
+    # Associative arrays to store configuration details and active monitors respectively
+    declare -A conf
+    eval $(parse_yaml $1 "conf")
+    local commandStr=""
+
+    case "${conf[monitors]}" in
+        # Single active output
+        "1")
+            for (( i=0; i<3; i++ )); do
+                # check for inactive outputs
+                if [ "${conf[${i}_active]}" == "no" ]; then
+                    commandStr="${commandStr}--output ${conf[${i}_name]} --off "
+                else
+                    commandStr="${commandStr}--output ${conf[${i}_name]} --auto "
+                fi
+            done
+            ;;
+        # Dual output
+        "2")
+            for (( i=0; i<3; i++ )); do
+                # check for inactive outputs
+                if [ "${conf[${i}_active]}" == "no" ]; then
+                    commandStr="${commandStr}--output ${conf[${i}_name]} --off "
+                else
+                    case "${conf[${i}_display]}" in
+                        # Primary output
+                        "main")
+                            commandStr="\
+${commandStr}--output ${conf[${i}_name]} --auto --primary "
+                            ;;
+                        "duplicate")
+                            commandStr="\
+${commandStr}--output ${conf[${i}_name]} --same-as ${conf[${i}_parent]} "
+                            ;;
+                        "join")
+                            case "${conf[${i}_position]}" in
+                                "north")
+                                    commandStr="\
+${commandStr}--output ${conf[${i}_name]} --above ${conf[${i}_parent]} --auto "
+                                    ;;
+                                "east")
+                                    commandStr="\
+${commandStr}--output ${conf[${i}_name]} --right-of ${conf[${i}_parent]} --auto "
+                                    ;;
+                                "south")
+                                    commandStr="\
+${commandStr}--output ${conf[${i}_name]} --below ${conf[${i}_parent]} --auto "
+                                    ;;
+                                "west")
+                                    commandStr="\
+${commandStr}--output ${conf[${i}_name]} --left-of ${conf[${i}_parent]} --auto "
+                                    ;;
+                                *)
+                                    echo "ERR: ${conf[${i}_position]} is not a valid monitor position"
+                                    ;;
+                            esac
+                            ;;
+                        *)
+                            echo "ERR: ${conf[${i}_display]} is not a valid display state"
+                            ;;
+                    esac
+                fi
+            done
+
+            ;;
+        *)
+            echo "ERR: ${conf[monitors]} is not a valid monitor number"
+            ;;
+    esac
+
+    command="$commandStr"
+
+}
+
+# Usage: set_main <screen> <config file>
+set_main() {
+    local screen="$1"
+    local conffile="$2"
+
+    local curscreen=""
+    local curline=0
+    while read p; do
+        echo "$curline - $p"
+        ((curline++))
+    done < "${conffile}"
+
+}
+
+main() {
+    currentConf="/var/tmp/screenState/current"
+
+    case "$1" in
+        "update")
+            update_config "$2" "$currentConf"
+            ;;
+        "refresh")
+            build_command "$currentConf"
+            echo "xrandr $command"
+            eval "xrandr $command"
+            ;;
+        "main")
+            echo "set_main not implemented yet lol"
+            set_main "0" "$currentConf"
+            ;;
+        *)
+            echo "I came here for an argument, this is just denial"
+            ;;
+    esac
+}
+
+main "$@"

@@ -1,0 +1,11 @@
+Applications,rofi -show drun
+Windows,rofi -show windowcd
+SSH,rofi -show ssh
+Power Menu,^checkout(pwrmenu)
+
+^tag(pwrmenu)
+logout,xfce4-session-logout -l
+power off,xfce4-session-logout -h
+reboot,xfce4-session-logout -r
+suspend,xfce4-session-logout -s
+hibernate,xfce4-session-logout --hibernate

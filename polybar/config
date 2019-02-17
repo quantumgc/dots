@@ -13,9 +13,6 @@
     ;compositing-foreground = source
     ;compositing-border = over
 
-[global/wm]
-    margin-top = 0
-    margin-bottom = 0
-    
-    ; vim:ft=dosini
-
+;[global/wm]
+;    margin-top = 0
+;    margin-bottom = 0

@@ -14,11 +14,8 @@
 
     #------------------------------------------------------------
     # Window defaults
-        # Multihead setup
-            #output eDP1 pos 0,0 res 1920x1080
-
         # Layout for new windows (manages titlebars etc.)
-            default_border pixel 2
+            default_border pixel 5
             hide_edge_borders both
 
         # Layout for new workspaces
@@ -26,7 +23,7 @@
         # Default workspaces
 
         # Font for window titles. Will also be used by the bar unless a different font is used in the bar {} block below.
-            font pango:Noto Mono 0
+            font pango:Cantarell 12
     #------------------------------------------------------------
     # Per program settings
         # Steam as per https://github.com/ValveSoftware/steam-for-linux/issues/1040
@@ -40,43 +37,28 @@
             for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
             for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
             for_window [title="^Steam Keyboard$"] floating enable
-
-        # Slack caller
-            for_window [title="Slack Call Minipanel"] floating enable
+        # Mathematica
+            for_window [title="Welcome to Wolfram Mathematica"] floating enable
+            for_window [class="^XMathematica$"] floating enable
 
         # Firefox
             #for_window [class="^Firefox$" title="^Session Manager$"] floating enable
             assign [class="^Firefox$"] 1
-
-        # Catfish search
-            for_window [class="^Catfish$"] floating enable
-
-        # Shutter
-            for_window [class="^Shutter$"] floating enable
-
-        # Mathematica
-            for_window [title="Welcome to Wolfram Mathematica"] floating enable
-            for_window [class="^XMathematica$"] floating enable
+        # Thunar
+            assign [class="^Thunar$"] 4
+        # Evince
+            assign [class="^Evince$"] 5
         # MPV
             for_window [class="^mpv$"] border none
-        # VSCode
-            assign [class="^Code$"] 3
-            no_focus [class="^Code$"]
         # Emacs
             assign [class="^Emacs$"] 3
             no_focus [class="^Emacs$"]
         # Liferea
-            assign [class="^Liferea$"] 10
-        # Hexchat
-            assign [class="^Hexchat$"] 10
+            assign [class="^Liferea$"] 9
         # qBittorent
-            assign [class="^qBittorrent$"] 10
-        # Amarok
-            assign [class="Amarok$"] 10
+            assign [class="^qBittorrent$"] 9
         # Steam
             assign [class="^Steam$"] 10
-        # Riot
-            assign [class="^Riot$"] 10
         # Discord
             assign [class=".*discord.*"] 10
     #------------------------------------------------------------
@@ -108,6 +90,7 @@
         set $menu exec rofi -show drun # menu
         set $window exec rofi -show windowcd # window switcher
         set $ssh exec rofi -show ssh # ssh
+        set $copy exec rofi -show clipboard # clipboard
 
         # Use Mouse+$mod to drag floating windows to their wanted position
             floating_modifier $mod
@@ -137,10 +120,10 @@
     # Starting programs
         bindsym $mod+$ret exec $term
         bindsym $mod+t exec thunar
-        bindsym $mod+f exec jgmenu_run
         bindsym $mod+d $menu
-        bindsym $mod+Shift+d $window
-        bindsym $mod+$alt+d $ssh
+        bindsym $mod+$alt+w $window
+        bindsym $mod+$alt+s $ssh
+        bindsym $mod+$alt+c $copy
     #------------------------------------------------------------
     # Window management
 
@@ -168,8 +151,8 @@
 
 
         # Change Split Orientation
-            bindsym $mod+b split h
-            bindsym $mod+v split v
+            bindsym $mod+v split h
+            bindsym $mod+b split v
 
         # Change container layout
             bindsym $mod+q layout stacking
@@ -192,6 +175,9 @@
 
         # Show the first scratchpad window
             bindsym $mod+plus scratchpad show
+
+        # Jump to the urgent window
+            bindsym $mod+u [urgent=latest] focus
 
         # Resize a window
             mode "resize" {
@@ -249,6 +235,17 @@
             bindsym $mod+9 workspace 9
             bindsym $mod+0 workspace 10
 
+            bindsym $mod+Mod2+KP_1 workspace 1
+            bindsym $mod+Mod2+KP_2 workspace 2
+            bindsym $mod+Mod2+KP_3 workspace 3
+            bindsym $mod+Mod2+KP_4 workspace 4
+            bindsym $mod+Mod2+KP_5 workspace 5
+            bindsym $mod+Mod2+KP_6 workspace 6
+            bindsym $mod+Mod2+KP_7 workspace 7
+            bindsym $mod+Mod2+KP_8 workspace 8
+            bindsym $mod+Mod2+KP_9 workspace 9
+            bindsym $mod+Mod2+KP_0 workspace 10
+
         # Move to workspace
             bindsym $mod+Shift+1 move container to workspace 1
             bindsym $mod+Shift+2 move container to workspace 2
@@ -276,48 +273,192 @@
                 bindsym $alt+$mod+8 $x_switch 8
                 bindsym $alt+$mod+9 $x_switch 9
                 bindsym $alt+$mod+0 $x_switch 10
+         
+         # Workspace left/right
+             bindsym $mod+Tab workspace next
+             bindsym $mod+Shift+Tab workspace prev
+    
+    
+    #------------------------------------------------------------
+    # Music player control
+        # Play/Pause the current music player
+            bindsym $mod+Ctrl+space exec playerctl play-pause
+        # Next/previous track
+            bindsym $mod+Ctrl+l exec playerctl next
+            bindsym $mod+Ctrl+h exec playerctl previous
+        # Restart currently playing track
+            bindsym $mod+Ctrl+r exec playerctl position 0
+        # Display currently playing notification
+            bindsym $mod+Ctrl+d exec mprisnotify
+
+
     #------------------------------------------------------------
     # Other Keybinds
         # Reload the configuration file
             bindsym $mod+Shift+c reload
         # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
             bindsym $mod+Shift+r restart
-        # Play/Pause the current music player
-            bindsym $mod+Ctrl+space exec playerctl play-pause
         # Screen locker
-            bindsym $alt+Ctrl+Delete exec "xautolock -locknow"
+            bindsym $alt+Ctrl+Delete exec "XSSToggle XSSON& xflock4"
+        # Turn off xscreensaver and dpms for 30 minutes
+            bindsym $mod+x exec "XSSToggle 1800&"
+        # Turn xscreensaver back on
+            bindsym $mod+Shift+x exec "XSSToggle XSSON&"
         # Screen brightness controls
             # increase screen brightness: big step
-                bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-                bindsym $mod+u exec xbacklight -inc 10
-            # small step
-                bindsym Ctrl+XF86MonBrightnessUp exec xbacklight -inc 1
-                bindsym $mod+Shift+u exec xbacklight -inc 1
-            # decrease screen brightness: big step
-                bindsym XF86MonBrightnessDown exec xbacklight -dec 10
-                bindsym $mod+y exec xbacklight -dec 10
-            # small step
-                bindsym Ctrl+Shift+XF86MonBrightnessUp exec xbacklight -dec 1
-                bindsym $mod+Shift+y exec xbacklight -dec 1
+                #bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+                #bindsym $mod+u exec xbacklight -inc 10
+            # sm#all step
+                #bindsym Ctrl+XF86MonBrightnessUp exec xbacklight -inc 1
+                #bindsym $mod+Shift+u exec xbacklight -inc 1
+            # de#crease screen brightness: big step
+                #bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+                #bindsym $mod+y exec xbacklight -dec 10
+            # sm#all step
+                #bindsym Ctrl+Shift+XF86MonBrightnessUp exec xbacklight -dec 1
+                #bindsym $mod+Shift+y exec xbacklight -dec 1
 
         # exit i3 (logs you out of your X session)
             bindsym $mod+Shift+e exec clearine
+
         # Switch screen modes (i3 only)
             # A hacky way of switching between a single screen and a double screen that I may split
               # off into a separate script at some point.
-            bindsym $mod+n exec "echo single > $HOME/.config/i3/state.txt"; restart; exec "$HOME/.fehbg";
-            bindsym $mod+Shift+n exec "echo multi > $HOME/.config/i3/state.txt"; restart; exec "$HOME/.fehbg";
+            #bindsym $mod+n exec "echo single > /var/tmp/screenState/screenState.txt"; restart; exec "$HOME/.fehbg";
+            #bindsym $mod+Shift+n exec "echo multi > /var/tmp/screenState/screenState.txt"; restart; exec "$HOME/.fehbg";
+
+            ## Manual management of external displays
+            # Set the shortcuts and what they do
+            set $mode_display   Screen (i) internal, (v) VGA, (h) HDMI, (d) duplicate, (j) join
+            set $mode_duplicate Duplicate onto (v) VGA, (h) HDMI
+            set $mode_join      Join onto (v) VGA, (h) HDMI 
+            set $mode_join_vga  Join VGA (n) north, (e) east, (w) west, (s) south
+            set $mode_join_hdmi Join HDMI (n) north, (e) east, (w) west, (s) south
+
+            mode "$mode_display" {
+                 bindsym i exec --no-startup-id \
+                 "screen-switch update \
+'monitors:1;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:no}'", \
+                 mode "default", restart, restart
+
+                 bindsym v exec --no-startup-id \
+                 "screen-switch update \
+'monitors:1;\
+0:{name:eDP-1,active:no};\
+1:{name:DP-1,active:yes,display:main};\
+2:{name:HDMI-1,active:no}'", \
+                 mode "default", restart, restart
+
+                 bindsym h exec --no-startup-id \
+                 "screen-switch update \
+'monitors:1;\
+0:{name:eDP-1,active:no};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:yes,display:main}'", \
+                 mode "default", restart, restart
+
+                 bindsym d mode "$mode_duplicate"
+                 bindsym j mode "$mode_join"
+
+                 # back to normal: Enter or Escape
+                 bindsym Return mode "default"
+                 bindsym Escape mode "default"
+           }
+
+           mode "$mode_join" {
+                bindsym v mode "$mode_join_vga"
+                bindsym h mode "$mode_join_hdmi"
+
+                bindsym Return mode "default"
+                bindsym Escape mode "default"
+           }
+
+           mode "$mode_join_vga" {
+                bindsym n exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:DP-1,active:yes,display:main};\
+1:{name:eDP-1,active:yes,display:join,parent:DP-1,position:south};\
+2:{name:HDMI-1,active:no}'", \
+                mode "default", restart, restart
+                bindsym e exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:DP-1,active:yes,display:main};\
+1:{name:eDP-1,active:yes,display:join,parent:DP-1,position:west};\
+2:{name:HDMI-1,active:no}'", \
+                mode "default", restart, restart
+                bindsym s exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:yes,display:join,parent:eDP-1,position:south};\
+2:{name:HDMI-1,active:no}'", \
+                mode "default", restart, restart
+                bindsym w exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:DP-1,active:yes,display:main};\
+1:{name:eDP-1,active:yes,display:join,parent:DP-1,position:east};\
+2:{name:HDMI-1,active:no}'", \
+                mode "default", restart, restart
+
+                bindsym Return mode "default"
+                bindsym Escape mode "default"
+           }
+
+           mode "$mode_join_hdmi" {
+                bindsym n exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:yes,display:join,parent:eDP-1,position:north}'", \
+                mode "default", restart, restart
+                bindsym e exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:yes,display:join,parent:eDP-1,position:east}'", \
+                mode "default", restart, restart
+                bindsym s exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:yes,display:join,parent:eDP-1,position:south}'", \
+                mode "default", restart, restart
+                bindsym w exec --no-startup-id \
+                 "screen-switch update \
+'monitors:2;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:yes,display:join,parent:eDP-1,position:west}'", \
+                mode "default", restart, restart
+
+                bindsym Return mode "default"
+                bindsym Escape mode "default"
+           }
+
+           # Declare here the shortcut to bring the display selection menu
+           bindsym $mod+n mode "$mode_display"
+           bindsym $mod+Shift+n exec --no-startup-id \
+           "screen-switch update \
+'monitors:1;\
+0:{name:eDP-1,active:yes,display:main};\
+1:{name:DP-1,active:no};\
+2:{name:HDMI-1,active:no}'", \
+                 , restart, restart
+
 #------------------------------------------------------------
 # Startup/Refresh
     #------------------------------------------------------------
     # Initialisation
-        exec "xset s off -dpms"
-        exec "echo single > $HOME/.config/i3/state.txt"
-        exec_always "$HOME/.config/i3/Xsetup.sh"
-        exec "redshift -t 6500:3500 -b 1:1 -l 53.7:-1 &"
-        exec "/usr/bin/lastfmsubmitd"
-        exec "thunar --daemon"
-        exec "ibus-daemon -d"
+        exec_always "screen-switch refresh"
     #------------------------------------------------------------
     # Display
         # wal
@@ -326,8 +467,6 @@
         exec_always "$HOME/.fehbg &"
         # dunst
         exec_always "$HOME/.config/dunst/launch.sh"
-        # xautolock
-        exec_always "$HOME/.config/xautolock/launch.sh"
         # Compton
         exec_always "$HOME/.config/compton/launch.sh"
         # polybar
@@ -335,6 +474,10 @@
     #------------------------------------------------------------
     # Other stuff
 
+        # Keyboard
+        #exec "ibus-daemon -d"
+        # redshift
+        exec "redshift -c $HOME/.config/redshift/redshift.conf"
 #------------------------------------------------------------
 # Colors
     # Set colors from Xresources
@@ -344,13 +487,15 @@
     # it fails to get colors from Xresources.
     set_from_resource $fg i3wm.color7 #f0f0f0
     set_from_resource $bg i3wm.color2 #f0f0f0
+    set_from_resource $fg2 i3wm.color0 #f0f0f0
+    set_from_resource $bg2 i3wm.color4 #f0f0f0
 
-    # class                 border  backgr. text indicator child_border
-    client.focused          $bg     $bg     $fg  $bg       $bg
-    client.focused_inactive $bg     $bg     $fg  $bg       $bg
-    client.unfocused        $bg     $bg     $fg  $bg       $bg
-    client.urgent           $bg     $bg     $fg  $bg       $bg
-    client.placeholder      $bg     $bg     $fg  $bg       $bg
+    # class                 border  backgr. text   indicator   child_border
+    client.focused          $bg     $bg     $fg    $bg         $bg
+    client.focused_inactive $bg     $bg     $fg2   $bg         $bg
+    client.unfocused        $bg2    $bg2    $fg2   $bg         $bg
+    client.urgent           $bg     $bg     $fg    $bg         $bg
+    client.placeholder      $bg     $bg     $fg    $bg         $bg
 
     client.background       $bg
 #------------------------------------------------------------s

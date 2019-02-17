@@ -1,52 +1,15 @@
 [module/xwindow]
     type = internal/xwindow
-    label = %title:0:100:...%
-    
-[module/xkeyboard]
-    type = internal/xkeyboard
-    blacklist-0 = num lock
-    
-    label-layout = %layout%
-    label-layout-underline = ${colors.secondary}
-    
-    label-indicator-padding = 0
-    label-indicator-margin = 0
-    label-indicator-background = ${colors.secondary}
-    label-indicator-underline = ${colors.secondary}
-
-[module/filesystem]
-    type = internal/fs
-    interval = 25
-    
-    mount-0 = /
-    
-    label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
-    label-unmounted = %mountpoint% not mounted
-    label-unmounted-foreground = ${colors.foreground}
-
-[module/bspwm]
-    type = internal/bspwm
-    
-    label-focused = %index%
-    label-focused-foreground = ${colors.background}
-    label-focused-background = ${colors.foreground}
-    
-    label-focused-underline= ${colors.alert}
-    label-focused-padding = 2
-    
-    label-occupied = %index%
-    label-occupied-padding = 1.5
-    
-    label-urgent = %index%!
-    label-urgent-background = ${colors.alert}
-    label-urgent-padding = 1.5
-    
-    label-empty = %index%
-    label-empty-foreground = ${colors.foreground-2}
-    label-empty-padding = 1.5
+    label = %title:0:50:...%
 
 [module/i3]
     type = internal/i3
+    ws-icon-0 = "1;: %{T6}%{T-}"
+    ws-icon-1 = "2;: %{T5}%{T-}"
+    ws-icon-2 = "3;: %{T5}%{T-}"
+    ws-icon-3 = "4;: %{T5}%{T-}"
+    ws-icon-4 = "5;: %{T5}%{T-}"
+
     format = <label-state> <label-mode>
     index-sort = true
     wrapping-scroll = false
@@ -54,68 +17,48 @@
     ; Only show workspaces on the same output as the bar
     ; pin-workspaces = true
     
-    label-mode-padding = 2
+
+    label-mode-padding = 0
     label-mode-foreground = ${colors.foreground}
     label-mode-background = ${colors.background}
     
     ; focused = Active workspace on focused monitor
-    label-focused = %index%
-    label-focused-foreground = ${module/bspwm.label-focused-foreground} 
-    label-focused-background = ${module/bspwm.label-focused-background}
-    label-focused-underline = ${module/bspwm.label-focused-underline}
-    label-focused-padding = ${module/bspwm.label-focused-padding}
+    label-focused = "%index%%icon%"
+    label-focused-foreground = ${colors.foreground}
+    label-focused-background = ${colors.background}
+    label-focused-underline = ${colors.alert}
+    label-focused-padding = 2
     
     ; unfocused = Inactive workspace on any monitor
-    label-unfocused = %index%
-    label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+    label-unfocused = "%index%%icon%"
+    label-unfocused-foreground = ${colors.background}
+    label-unfocused-background = ${colors.foreground}
+    label-unfocused-padding = 2
     
     ; visible = Active workspace on unfocused monitor
-    label-visible = %index%
-    label-visible-background = ${self.label-focused-background}
+    label-visible = "%index%%icon%"
+    label-visible-background = ${self.label-focused-foreground}
     label-visible-foreground = ${colors.foreground-2}
-    label-visible-underline = ${self.label-focused-background}
-    label-visible-padding = ${self.label-focused-padding}
+    label-visible-padding = 2
     
     ; urgent = Workspace with urgency hint set
-    label-urgent = %index%
-    label-urgent-background = ${module/bspwm.label-urgent-background}
-    label-urgent-padding = ${module/bspwm.label-urgent-padding}
+    label-urgent = "%index%%icon%"
+    label-urgent-background = ${colors.alert}
+    label-urgent-padding = 2
 
 [module/i3mini]
-    type = internal/i3
-    format = <label-state> <label-mode>
-    index-sort = true
-    wrapping-scroll = false
+    inherit = module/i3
     
+    label-focused-padding = 1
+    label-unfocused-padding = 1
+    label-focused = "%index%"
+    label-unfocused = "%index%"
+    label-visible = "%index%"
+    label-urgent = "%index%"
+
     ; Only show workspaces on the same output as the bar
     pin-workspaces = true
-    
-    label-mode-padding = 2
-    label-mode-foreground = ${colors.foreground}
-    label-mode-background = ${colors.background}
-    
-    ; focused = Active workspace on focused monitor
-    label-focused = %index%
-    label-focused-foreground = ${module/bspwm.label-focused-foreground} 
-    label-focused-background = ${module/bspwm.label-focused-background}
-    label-focused-underline = ${module/bspwm.label-focused-underline}
-    label-focused-padding = ${module/bspwm.label-focused-padding}
-    
-    ; unfocused = Inactive workspace on any monitor
-    label-unfocused = %index%
-    label-unfocused-padding = ${module/bspwm.label-occupied-padding}
-    
-    ; visible = Active workspace on unfocused monitor
-    label-visible = %index%
-    label-visible-background = ${self.label-focused-background}
-    label-visible-foreground = ${colors.foreground-2}
-    label-visible-underline = ${self.label-focused-background}
-    label-visible-padding = ${self.label-focused-padding}
-    
-    ; urgent = Workspace with urgency hint set
-    label-urgent = %index%
-    label-urgent-background = ${module/bspwm.label-urgent-background}
-    label-urgent-padding = ${module/bspwm.label-urgent-padding}
+
 
 [module/mpd]
     type = internal/mpd
@@ -127,143 +70,71 @@
     ; Default: 1
     interval = 2
     
-    format-online = <label-song> -- <icon-prev>|<icon-stop>|<toggle>|<icon-next>
+    format-online =  <icon-prev>|<label-song>|<toggle>|<icon-next>
+
+    format-offline = <label-offline>
+    label-offline = "MPD server disconnected"
     
-    icon-prev = Prev
-    icon-stop = Stop
-    icon-play = Play
-    icon-pause = Pause
-    icon-next = Next
+    icon-prev = "%{T5}%{T-}"
+    icon-stop = "%{T5}%{T-}"
+    icon-play = "%{T5}%{T-}"
+    icon-pause = "%{T5}%{T-}"
+    icon-next = "%{T5}%{T-}"
     
+    label-song = "%title% - %artist%"
     label-song-maxlen = 50
     label-song-ellipsis = true
-
-[module/music]
-    type = custom/script
-    interval = 2
-    
-    label = %output:0:50:...%
-    exec = ~/.config/polybar/mpris.sh
-    
-[module/xbacklight]
-    type = internal/xbacklight
-    
-    format = <label> <bar>
-    label = BL
-    
-    bar-width = 10
-    bar-indicator = |
-    bar-indicator-foreground = #ff
-    bar-indicator-font = 2
-    bar-fill = ─
-    bar-fill-font = 2
-    bar-fill-foreground = #9f78e1
-    bar-empty = ─
-    bar-empty-font = 2
-    bar-empty-foreground = ${colors.foreground}
-
-[module/backlight-acpi]
-    inherit = module/xbacklight
-    type = internal/backlight
-    card = intel_backlight
-
-[module/cpu]
-    type = internal/cpu
-    interval = 2
-    format-prefix-foreground = ${colors.foreground}
-    format-underline = #f90000
-    label = %percentage%%
-
-[module/memory]
-    type = internal/memory
-    interval = 2
-    format-prefix-foreground = ${colors.foreground}
-    format-underline = #4bffdc
-    label = %percentage_used%%
 
 [module/wlan]
     type = internal/network
     interface = wlp2s0
     interval = 3.0
     
-    format-connected = <ramp-signal> <label-connected>
+    format-connected = <label-connected>
     format-connected-underline = ${colors.foreground-2}
-    label-connected = WiFi @%downspeed:9%↓/%upspeed:9%↑
+    label-connected = "%{T5}%{T-}%downspeed:9%/%upspeed:9%"
     
     format-disconnected = 
-    format-disconnected-underline = #00000000
-    label-disconnected = WiFi disc.
-    label-disconnected-foreground = ${colors.foreground}
     
-    ramp-signal-0 = 5
-    ramp-signal-1 = 4
-    ramp-signal-2 = 3
-    ramp-signal-3 = 2
-    ramp-signal-4 = 1
-    ramp-signal-foreground = ${colors.foreground}
+
+    format-packetloss = <animation-packetloss> <label-connected>
+    
+    ; Only applies if <animation-packetloss> is used
+    animation-packetloss-0 = "%{T5}%{T-}"
+    animation-packetloss-0-foreground = ${colors.foreground}
+    animation-packetloss-1 = "%{T5}%{T-}"
+    animation-packetloss-1-foreground = ${colors.foreground}
+    ; Framerate in milliseconds
+    animation-packetloss-framerate = 500
 
 [module/eth]
     type = internal/network
     interface = enp1s0
     interval = 3.0
     
+    format-connected = <label-connected>
     format-connected-underline = ${colors.foreground-2}
     format-connected-prefix-foreground = ${colors.foreground}
-    label-connected = eth @%downspeed:9%↓/%upspeed:9%↑
-    
+    label-connected = "%{T5}%{T-}%downspeed:9%/%upspeed:9%"
     
     format-disconnected =
-    format-disconnected-underline = #00000000
-    label-disconnected = eth disc.
-    label-disconnected-foreground = ${colors.foreground}
-
-[module/netbr]
-    type = internal/network
-    interface = enp0s20u2
-    interval = 3.0
-    
-    format-connected-underline = ${colors.foreground-2}
-    format-connected-prefix = " "
-    format-connected-prefix-foreground = ${colors.foreground}
-    label-connected = bridge conn.
-    
-    
-    format-disconnected = <label-disconnected>
-    format-disconnected-underline = ${self.format-connected-underline}
-    label-disconnected = bridge disc.
-    label-disconnected-foreground = ${colors.foreground}
-
 [module/time]
     type = internal/date
     interval = 1
     
-    date = "%d-%m-%Y"
-    date-alt = "%Y-%m-%d"
-    
-    time = "%R"
-    time-alt = "%T"
-    
-    format-underline = #00000000
-    
-    label = %time%
-
-[module/date]
-    type = internal/date
-    interval = 10
-    
     date = "%a %d-%m"
-    date-alt = "%FT%T"
+    date-alt = "%F"
     
     time = "%R"
     time-alt = "%T"
     
-    format-prefix-foreground = ${colors.foreground}
     format-underline = #00000000
-    
-    label = %date%
+   
+ 
+    label = "%{T5}%{T-} %date% %{T5}%{T-} %time%"
 
 [module/volume]
-    type = internal/volume
+    type = internal/pulseaudio
     
     ; Soundcard to be used
     master-soundcard = default
@@ -282,7 +153,7 @@
     label-volume = VOL
     label-volume-foreground = ${colors.foreground}
     
-    format-muted-prefix = " "
+    format-muted-prefix = "%{T5}%{T-} "
     format-muted-foreground = ${colors.foreground-2}
     label-muted = "sound muted"
     
@@ -310,68 +181,40 @@
     full-at = 98
     
     format-charging = <label-charging>
+    label-charging = "%{T5}%{T-} %percentage%"
     format-charging-underline = ${colors.foreground-2}
 
-    format-discharging = <label-discharging>
+
+    format-discharging = <ramp-capacity> <label-discharging>
+    label-discharging = "%percentage%"
     format-discharging-underline = ${colors.background}
     
+
+    format-full = <label-full>
+    label-full = " %percentage%"
     format-full-underline = ${colors.foreground}
-    
-[module/temperature]
-    type = internal/temperature
-    thermal-zone = 0
-    warn-temperature = 60
-    
-    format = <ramp> <label>
-    format-underline = #f50a4d
-    format-warn = <ramp> <label-warn>
-    format-warn-underline = ${self.format-underline}
-    
-    label = %temperature%
-    label-warn = %temperature%
-    label-warn-foreground = ${colors.secondary}
-    
-    ramp-0 = 
-    ramp-1 = 
-    ramp-2 = 
-    ramp-foreground = ${colors.foreground}
 
-[module/powermenu]
-    type = custom/menu
-    
-    format-spacing = 1
-    
-    label-open = Power
-    label-open-foreground = ${colors.foreground}
-    label-close = cancel
-    label-close-foreground = ${colors.foreground}
-    label-separator = |
-    label-separator-foreground = ${colors.foreground}
-    
-    menu-0-0 = reboot
-    menu-0-0-exec = menu-open-1
-    menu-0-1 = power off
-    menu-0-1-exec = menu-open-2
-    
-    menu-1-0 = cancel
-    menu-1-0-exec = menu-open-0
-    menu-1-1 = reboot
-    menu-1-1-exec = reboot
-    
-    menu-2-0 = power off
-    menu-2-0-exec = poweroff
-    menu-2-1 = cancel
-    menu-2-1-exec = menu-open-0
+    ramp-capacity-0 = 
+    ramp-capacity-1 = 
+    ramp-capacity-2 = 
+    ramp-capacity-3 = 
+    ramp-capacity-4 = 
 
+[module/fedorabutton]
+    type = custom/text
+
+    content = "%{T6}%{T-}"
+    content-foreground = ${colors.foreground}
+    content-background = ${colors.background}
+    content-padding = 1
+    click-left = "$XDG_CONFIG_HOME/polybar/fedoramenu.sh"
+
+[module/textspace]
+    type = custom/text
+
+    content = " | "
 
 [module/redshift]
-    type = custom/script
-    interval = 5
-    
-    exec = ~/.config/polybar/redshift.sh
-[module/jgmenu]
-    type = custom/script
-    label-padding = 2
-    interval = 120
-    exec = echo "menu"
-    click-left = "jgmenu_run >/dev/null 2>&1 &"
+  type = custom/script
+  exec = "$XDG_CONFIG_HOME/polybar/redshift.sh"
+  interval = 5

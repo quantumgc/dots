@@ -1,4 +1,4 @@
-rofi.font: System San Francisco Display 20
+rofi.font: Fira Sans 20
 rofi.eh: 1
 rofi.line-margin: 30
 rofi.opacity: "50"
@@ -10,7 +10,8 @@ rofi.padding: 400
 rofi.bw: 0
 rofi.auto-select: true
 rofi.show-icons: true
-rofi.modi: windowcd,drun,ssh
+rofi.modi: windowcd,drun,ssh,clipboard:greenclip print
+rofi.drun-icon-theme: Papirus-Dark
 
 # Dark theme.
 rofi.theme: ~/.cache/wal/colors-rofi-dark.rasi
