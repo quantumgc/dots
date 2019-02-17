@@ -3,8 +3,8 @@
     height = 25
     bottom = false
     fixed-center = true
-    line-size = 0
-    line-color = #f00
+    line-size = 1
+    line-color = ${colors.foreground}
     background = ${colors.background}
     foreground = ${colors.foreground}
     border-size = 0

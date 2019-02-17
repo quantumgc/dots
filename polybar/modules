@@ -4,11 +4,12 @@
 
 [module/i3]
     type = internal/i3
-    ws-icon-0 = "1;: %{T6}%{T-}"
-    ws-icon-1 = "2;: %{T5}%{T-}"
-    ws-icon-2 = "3;: %{T5}%{T-}"
-    ws-icon-3 = "4;: %{T5}%{T-}"
-    ws-icon-4 = "5;: %{T5}%{T-}"
+    ws-icon-0 = "1;%{T6}%{T-}"
+    ws-icon-1 = "2;%{T5}%{T-}"
+    ws-icon-2 = "3;%{T5}%{T-}"
+    ws-icon-3 = "4;%{T5}%{T-}"
+    ws-icon-4 = "5;%{T5}%{T-}"
+    ws-icon-default = ""
 
     format = <label-state> <label-mode>
     index-sort = true
@@ -23,26 +24,28 @@
     label-mode-background = ${colors.background}
     
     ; focused = Active workspace on focused monitor
-    label-focused = "%index%%icon%"
+    label-focused = "%icon%"
     label-focused-foreground = ${colors.foreground}
     label-focused-background = ${colors.background}
-    label-focused-underline = ${colors.alert}
+    label-focused-underline  = ${colors.foreground}
     label-focused-padding = 2
     
     ; unfocused = Inactive workspace on any monitor
-    label-unfocused = "%index%%icon%"
+    label-unfocused = "%icon%"
     label-unfocused-foreground = ${colors.background}
     label-unfocused-background = ${colors.foreground}
+    label-unfocused-underline  = ${colors.primary}
     label-unfocused-padding = 2
     
     ; visible = Active workspace on unfocused monitor
-    label-visible = "%index%%icon%"
-    label-visible-background = ${self.label-focused-foreground}
-    label-visible-foreground = ${colors.foreground-2}
+    label-visible = "%icon%"
+    label-visible-foreground = ${colors.foreground}
+    label-visible-background = ${colors.background}
+    label-visible-underline  = ${colors.foreground}
     label-visible-padding = 2
     
     ; urgent = Workspace with urgency hint set
-    label-urgent = "%index%%icon%"
+    label-urgent = "%icon%"
     label-urgent-background = ${colors.alert}
     label-urgent-padding = 2
 
@@ -218,3 +221,5 @@
   type = custom/script
   exec = "$XDG_CONFIG_HOME/polybar/redshift.sh"
   interval = 5
+  click-left = "$XDG_CONFIG_HOME/polybar/redtoggle.sh"
+  
