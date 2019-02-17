@@ -14,18 +14,21 @@ def readYAML():
 
 def getSubFiles(data):
     """Returns an iterable of files to copy based on config values"""
+
     srcdir = os.path.expandvars(data['src'])
     files = os.listdir(srcdir)
-    for f in data.get('ignore', []):
-        if f in files:
-            files.remove(f)
+    pathNameTuple = lambda x : (os.path.join(srcdir, x), x)
+    ignoreFile = lambda x : (data.get('ignore', []).count(x) == 0)
 
-    return map(lambda x: (os.path.join(srcdir, x), x), files)
+    return [pathNameTuple(f) for f in files if ignoreFile(f)]
 
 def main():
+
     dirs, files = readYAML()
+
     for name, data in dirs.items():
         print(f"Config entry : Directory {name}")
+        getSubFiles(data)
         for src, base in getSubFiles(data):
             dst = os.path.join(data['dst'],base)
             print(f"copying {src} --> {dst}")
