@@ -1,6 +1,6 @@
 # Dotfiles
 
-![screenshot](./images/neofetch-2018-05-30-12-11-00-10804.png)
+![screenshot](./images/Screenshot_2019-02-17_02-49-22.png)
 
 Dotfiles for my desktop setup.  
-Also contains my [current wallpaper](./images/wall.jpg) and an [import script](./import.py) that I wrote to simplify things a bit.
+Also contains my [current wallpaper](./images/wall.jpg).
